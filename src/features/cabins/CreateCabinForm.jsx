@@ -1,5 +1,3 @@
-import styled from "styled-components";
-
 import Input from "../../ui/Input";
 import Form from "../../ui/Form";
 import Button from "../../ui/Button";
@@ -11,42 +9,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { createCabin } from "../../services/apiCabins";
 import { toast } from "react-hot-toast";
-
-const FormRow2 = styled.div`
-  display: grid;
-  align-items: center;
-  grid-template-columns: 24rem 1fr 1.2fr;
-  gap: 2.4rem;
-
-  padding: 1.2rem 0;
-
-  &:first-child {
-    padding-top: 0;
-  }
-
-  &:last-child {
-    padding-bottom: 0;
-  }
-
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-
-  &:has(button) {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1.2rem;
-  }
-`;
-
-const Label = styled.label`
-  font-weight: 500;
-`;
-
-const Error = styled.span`
-  font-size: 1.4rem;
-  color: var(--color-red-700);
-`;
 
 function CreateCabinForm() {
   const queryClient = useQueryClient();
@@ -64,7 +26,7 @@ function CreateCabinForm() {
   });
 
   function submitData(data) {
-    mutate(data);
+    mutate({ ...data, image: data.image[0] });
   }
 
   function onError(errors) {
@@ -77,6 +39,7 @@ function CreateCabinForm() {
         <Input
           type="text"
           id="name"
+          disabled={isCreating}
           {...register("name", {
             required: "This filed is required",
           })}
@@ -87,6 +50,7 @@ function CreateCabinForm() {
         <Input
           type="number"
           id="maxCapacity"
+          disabled={isCreating}
           {...register("maxCapacity", {
             required: "This filed is required",
             min: {
@@ -101,6 +65,7 @@ function CreateCabinForm() {
         <Input
           type="number"
           id="regularPrice"
+          disabled={isCreating}
           {...register("regularPrice", {
             required: "This filed is required",
             min: {
@@ -115,19 +80,21 @@ function CreateCabinForm() {
         <Input
           type="number"
           id="discount"
+          disabled={isCreating}
+          defaultValue={0}
           {...register("discount", {
             required: "This filed is required",
-            validate: (value) =>
-              value <= getValues().regularPrice || "Discount should be less than regular price",
+            validate: (value, formValues) =>
+              value <= formValues.regularPrice || "Discount should be less than regular price",
           })}
-          defaultValue={0}
         />
       </FormRow>
 
       <FormRow label="description" error={errors?.description?.message}>
         <Textarea
-          type="number"
+          type="text"
           id="description"
+          disabled={isCreating}
           {...register("description", {
             required: "This filed is required",
           })}
@@ -136,7 +103,13 @@ function CreateCabinForm() {
       </FormRow>
 
       <FormRow label="image">
-        <FileInput id="image" accept="image/*" />
+        <FileInput
+          id="image"
+          accept="image/*"
+          {...register("image", {
+            required: "This filed is required",
+          })}
+        />
       </FormRow>
 
       <FormRow>
