@@ -1,6 +1,6 @@
 import Spinner from "../../ui/Spinner";
 import { useSettings } from "./useSettings";
-// import { useUpdateSetting } from "./useUpdateSetting";
+import { useUpdateSetting } from "./useUpdateSetting";
 
 import Form from "../../ui/Form";
 import Input from "../../ui/Input";
@@ -12,7 +12,7 @@ function UpdateSettingsForm() {
     isLoading,
   } = useSettings();
 
-  // const { mutate: updateSetting, isLoading: isUpdating } = useUpdateSetting();
+  const { updateSetting, isUpdating } = useUpdateSetting();
 
   // return <Spinner />;
   if (isLoading) return <Spinner />;
@@ -21,7 +21,7 @@ function UpdateSettingsForm() {
     const { value } = e.target;
 
     if (!value) return;
-    // updateSetting({ [field]: value });
+    updateSetting({ [field]: value });
   }
 
   // This time we are using UNCONTROLLED fields, so we will NOT store state
@@ -32,7 +32,7 @@ function UpdateSettingsForm() {
           type="number"
           defaultValue={minBookingLength}
           onBlur={(e) => handleBlur(e, "minBookingLength")}
-          // disabled={isUpdating}
+          disabled={isUpdating}
           id="min-nights"
         />
       </FormRow>
@@ -41,7 +41,7 @@ function UpdateSettingsForm() {
           type="number"
           defaultValue={maxBookingLength}
           onBlur={(e) => handleBlur(e, "maxBookingLength")}
-          // disabled={isUpdating}
+          disabled={isUpdating}
           id="max-nights"
         />
       </FormRow>
@@ -50,7 +50,7 @@ function UpdateSettingsForm() {
           type="number"
           defaultValue={maxGuestsPerBooking}
           onBlur={(e) => handleBlur(e, "maxGuestsPerBooking")}
-          // disabled={isUpdating}
+          disabled={isUpdating}
           id="max-guests"
         />
       </FormRow>
@@ -59,7 +59,7 @@ function UpdateSettingsForm() {
           type="number"
           defaultValue={breakfastPrice}
           onBlur={(e) => handleBlur(e, "breakfastPrice")}
-          // disabled={isUpdating}
+          disabled={isUpdating}
           id="breakfast-price"
         />
       </FormRow>
