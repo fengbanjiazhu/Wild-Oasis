@@ -6,38 +6,14 @@ import Modal from "../../ui/Modal";
 function AddCabin() {
   return (
     <Modal>
-      <Modal.Open>
+      <Modal.Open opens="cabin-form">
         <Button>Add new cabin</Button>
       </Modal.Open>
-
-      <Modal.Window>
+      <Modal.Window name="cabin-form">
         <CreateCabinForm></CreateCabinForm>
       </Modal.Window>
     </Modal>
   );
 }
-
-// function AddCabin() {
-//   const [isOpenModal, setIsOpenModal] = useState(false);
-
-//   return (
-//     <div>
-//       <Button onClick={() => setIsOpenModal(!isOpenModal)}> Add new cabin</Button>
-//       {isOpenModal && (
-//         <Modal
-//           onCloseModal={() => {
-//             setIsOpenModal(false);
-//           }}
-//         >
-//           <CreateCabinForm
-//             onCloseModal={() => {
-//               setIsOpenModal(false);
-//             }}
-//           ></CreateCabinForm>
-//         </Modal>
-//       )}
-//     </div>
-//   );
-// }
 
 export default AddCabin;
