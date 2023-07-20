@@ -77,6 +77,7 @@ function CabinRow({ cabin }) {
         <Modal>
           <Menus.Menu>
             <Menus.Toggle id={cabinId} />
+
             {/* button list */}
             <Menus.List id={cabinId}>
               {/* duplicate */}
