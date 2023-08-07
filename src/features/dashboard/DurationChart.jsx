@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import Heading from "../../ui/Heading";
+import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
 const ChartBox = styled.div`
   /* Box */
@@ -26,22 +28,22 @@ const startDataLight = [
   },
   {
     duration: "2 nights",
-    value: 0,
+    value: 3,
     color: "#f97316",
   },
   {
     duration: "3 nights",
-    value: 0,
+    value: 5,
     color: "#eab308",
   },
   {
     duration: "4-5 nights",
-    value: 0,
+    value: 4,
     color: "#84cc16",
   },
   {
     duration: "6-7 nights",
-    value: 0,
+    value: 7,
     color: "#22c55e",
   },
   {
@@ -51,7 +53,7 @@ const startDataLight = [
   },
   {
     duration: "15-21 nights",
-    value: 0,
+    value: 2,
     color: "#3b82f6",
   },
   {
@@ -69,22 +71,22 @@ const startDataDark = [
   },
   {
     duration: "2 nights",
-    value: 0,
+    value: 3,
     color: "#c2410c",
   },
   {
     duration: "3 nights",
-    value: 0,
+    value: 5,
     color: "#a16207",
   },
   {
     duration: "4-5 nights",
-    value: 0,
+    value: 4,
     color: "#4d7c0f",
   },
   {
     duration: "6-7 nights",
-    value: 0,
+    value: 7,
     color: "#15803d",
   },
   {
@@ -94,7 +96,7 @@ const startDataDark = [
   },
   {
     duration: "15-21 nights",
-    value: 0,
+    value: 2,
     color: "#1d4ed8",
   },
   {
@@ -108,9 +110,7 @@ function prepareData(startData, stays) {
   // A bit ugly code, but sometimes this is what it takes when working with real data 😅
 
   function incArrayValue(arr, field) {
-    return arr.map((obj) =>
-      obj.duration === field ? { ...obj, value: obj.value + 1 } : obj
-    );
+    return arr.map((obj) => (obj.duration === field ? { ...obj, value: obj.value + 1 } : obj));
   }
 
   const data = stays
@@ -130,3 +130,41 @@ function prepareData(startData, stays) {
 
   return data;
 }
+
+function DurationChart({ confirmedStays }) {
+  return (
+    <ChartBox>
+      <Heading as="h2">Stay duration summary</Heading>
+      <ResponsiveContainer>
+        <PieChart>
+          <Pie
+            data={startDataLight} //数据来源
+            nameKey="duration" //name的key值
+            dataKey="value" //data的key值
+            innerRadius={80} //内圈半径
+            outerRadius={120} //外圈半径
+            cx="40%" //x轴位置
+            cy="50%" //y轴位置
+            paddingAngle={2} //间隔
+          >
+            {/* 渲染 */}
+            {startDataLight.map((entry) => (
+              <Cell fill={entry.color} stroke={entry.color} key={entry.duration} />
+            ))}
+          </Pie>
+          <Tooltip />
+          <Legend
+            verticalAlign="middle"
+            align="right"
+            width="30%"
+            layout="vertical"
+            iconSize={15}
+            iconType="circle"
+          />
+        </PieChart>
+      </ResponsiveContainer>
+    </ChartBox>
+  );
+}
+
+export default DurationChart;
