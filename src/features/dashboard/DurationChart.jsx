@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Heading from "../../ui/Heading";
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
+import { useDarkMode } from "../../context/DarkModeContext";
 
 const ChartBox = styled.div`
   /* Box */
@@ -28,22 +29,22 @@ const startDataLight = [
   },
   {
     duration: "2 nights",
-    value: 3,
+    value: 0,
     color: "#f97316",
   },
   {
     duration: "3 nights",
-    value: 5,
+    value: 0,
     color: "#eab308",
   },
   {
     duration: "4-5 nights",
-    value: 4,
+    value: 0,
     color: "#84cc16",
   },
   {
     duration: "6-7 nights",
-    value: 7,
+    value: 0,
     color: "#22c55e",
   },
   {
@@ -53,7 +54,7 @@ const startDataLight = [
   },
   {
     duration: "15-21 nights",
-    value: 2,
+    value: 0,
     color: "#3b82f6",
   },
   {
@@ -71,22 +72,22 @@ const startDataDark = [
   },
   {
     duration: "2 nights",
-    value: 3,
+    value: 0,
     color: "#c2410c",
   },
   {
     duration: "3 nights",
-    value: 5,
+    value: 0,
     color: "#a16207",
   },
   {
     duration: "4-5 nights",
-    value: 4,
+    value: 0,
     color: "#4d7c0f",
   },
   {
     duration: "6-7 nights",
-    value: 7,
+    value: 0,
     color: "#15803d",
   },
   {
@@ -96,7 +97,7 @@ const startDataDark = [
   },
   {
     duration: "15-21 nights",
-    value: 2,
+    value: 0,
     color: "#1d4ed8",
   },
   {
@@ -132,13 +133,17 @@ function prepareData(startData, stays) {
 }
 
 function DurationChart({ confirmedStays }) {
+  const { isDarkMode } = useDarkMode();
+  const startData = isDarkMode ? startDataDark : startDataLight;
+  const data = prepareData(startData, confirmedStays);
+
   return (
     <ChartBox>
       <Heading as="h2">Stay duration summary</Heading>
-      <ResponsiveContainer>
+      <ResponsiveContainer width="100%" height={240}>
         <PieChart>
           <Pie
-            data={startDataLight} //数据来源
+            data={data} //数据来源
             nameKey="duration" //name的key值
             dataKey="value" //data的key值
             innerRadius={80} //内圈半径
@@ -148,7 +153,7 @@ function DurationChart({ confirmedStays }) {
             paddingAngle={2} //间隔
           >
             {/* 渲染 */}
-            {startDataLight.map((entry) => (
+            {data.map((entry) => (
               <Cell fill={entry.color} stroke={entry.color} key={entry.duration} />
             ))}
           </Pie>
