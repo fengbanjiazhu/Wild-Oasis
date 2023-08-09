@@ -143,16 +143,15 @@ function DurationChart({ confirmedStays }) {
       <ResponsiveContainer width="100%" height={240}>
         <PieChart>
           <Pie
-            data={data} //数据来源
-            nameKey="duration" //name的key值
-            dataKey="value" //data的key值
-            innerRadius={80} //内圈半径
-            outerRadius={120} //外圈半径
-            cx="40%" //x轴位置
-            cy="50%" //y轴位置
-            paddingAngle={2} //间隔
+            data={data}
+            nameKey="duration"
+            dataKey="value"
+            innerRadius={80}
+            outerRadius={120}
+            cx="40%"
+            cy="50%"
+            paddingAngle={2}
           >
-            {/* 渲染 */}
             {data.map((entry) => (
               <Cell fill={entry.color} stroke={entry.color} key={entry.duration} />
             ))}
