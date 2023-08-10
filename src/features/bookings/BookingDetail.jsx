@@ -28,6 +28,7 @@ function BookingDetail() {
   const { checkout, isCheckingOut } = useCheckout();
 
   if (isLoading) return <Spinner />;
+
   const { status, id: bookingId } = booking;
 
   const statusToTagName = {
